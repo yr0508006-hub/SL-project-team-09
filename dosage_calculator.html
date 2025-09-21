@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Drug Dosage Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #11998e, #38ef7d);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      width: 480px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .info {
+      margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 20px;
+      background: #ff9800;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #e68900;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Drug Dosage Calculator</h2>
+    <div class="info" id="patientInfo"></div>
+
+    <label for="drug">Select Drug:</label>
+    <select id="drug" onchange="setStrength()">
+      <option value="">-- Select a Drug --</option>
+      <option value="5">Paracetamol</option>
+      <option value="10">Ibuprofen</option>
+      <option value="15">Amoxicillin</option>
+      <option value="12">Ciprofloxacin</option>
+      <option value="8">Metformin</option>
+      <option value="7">Aspirin</option>
+      <option value="5">Cetirizine</option>
+      <option value="6">Azithromycin</option>
+      <option value="20">Vitamin C</option>
+      <option value="25">Vitamin D</option>
+      <option value="30">Iron Supplement</option>
+      <option value="18">Calcium</option>
+      <option value="9">Losartan</option>
+      <option value="14">Atorvastatin</option>
+      <option value="22">Clopidogrel</option>
+      <option value="11">Hydrochlorothiazide</option>
+      <option value="13">Furosemide</option>
+      <option value="16">Levothyroxine</option>
+      <option value="10">Omeprazole</option>
+      <option value="15">Ranitidine</option>
+      <option value="8">Doxycycline</option>
+      <option value="9">Hydroxychloroquine</option>
+      <option value="5">Insulin</option>
+      <option value="10">Prednisone</option>
+      <option value="20">Multivitamin</option>
+      <option value="6">Loratadine</option>
+      <option value="7">Montelukast</option>
+      <option value="12">Erythromycin</option>
+      <option value="10">Naproxen</option>
+      <option value="18">Gabapentin</option>
+      <option value="15">Clarithromycin</option>
+      <option value="20">Vitamin B12</option>
+      <option value="22">Folic Acid</option>
+      <option value="9">Salbutamol</option>
+      <option value="13">Methotrexate</option>
+      <option value="17">Carbamazepine</option>
+      <option value="16">Phenytoin</option>
+      <option value="21">Topiramate</option>
+      <option value="19">Lamotrigine</option>
+      <option value="14">Sertraline</option>
+      <option value="15">Fluoxetine</option>
+      <option value="11">Citalopram</option>
+      <option value="12">Escitalopram</option>
+      <option value="10">Amlodipine</option>
+      <option value="8">Metoprolol</option>
+      <option value="9">Propranolol</option>
+      <option value="10">Enalapril</option>
+      <option value="7">Lisinopril</option>
+      <option value="6">Ramipril</option>
+      <option value="12">Warfarin</option>
+    </select>
+
+    <label for="strength">Drug Strength (mg/kg):</label>
+    <input type="number" id="strength" placeholder="Select a drug above">
+
+    <button onclick="calculateDosage()">Calculate Dosage</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Fetch patient details
+    const name = localStorage.getItem("name");
+    const age = localStorage.getItem("age");
+    const height = localStorage.getItem("height");
+    const weight = localStorage.getItem("weight");
+    const sugar = localStorage.getItem("sugar");
+    const conditions = localStorage.getItem("conditions");
+
+    document.getElementById("patientInfo").innerHTML = `
+      <strong>Name:</strong> ${name} <br>
+      <strong>Age:</strong> ${age} <br>
+      <strong>Height:</strong> ${height} cm <br>
+      <strong>Weight:</strong> ${weight} kg <br>
+      <strong>Sugar Level:</strong> ${sugar} mg/dL <br>
+      <strong>Other Conditions:</strong> ${conditions}
+    `;
+
+    // Auto-fill strength when drug selected
+    function setStrength() {
+      const drugDropdown = document.getElementById("drug");
+      const selectedStrength = drugDropdown.value;
+      document.getElementById("strength").value = selectedStrength;
+    }
+
+    // Calculate dosage
+    function calculateDosage() {
+      const strength = document.getElementById("strength").value;
+      if (!strength || weight <= 0) {
+        alert("Please select a valid drug and strength.");
+        return;
+      }
+      const dosage = (weight * strength).toFixed(2);
+      const drugName = document.getElementById("drug").options[document.getElementById("drug").selectedIndex].text;
+      document.getElementById("result").innerText = 
+        `Drug: ${drugName}\nRecommended Dosage: ${dosage} mg`;
+    }
+  </script>
+</body>
+</html>
